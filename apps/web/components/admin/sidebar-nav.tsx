@@ -31,7 +31,7 @@ export function SidebarNav() {
               "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
               active
                 ? "bg-primary/15 text-primary"
-                : "text-muted-foreground hover:bg-white/5 hover:text-foreground",
+                : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
             )}
           >
             <Icon className="h-4 w-4" />

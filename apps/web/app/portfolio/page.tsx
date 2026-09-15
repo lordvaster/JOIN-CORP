@@ -36,7 +36,7 @@ export default async function PortfolioPage() {
             <FadeIn key={item.id} delay={i * 0.08}>
               <Link
                 href={`/portfolio/${item.slug}`}
-                className="glass group flex h-full flex-col justify-between rounded-2xl p-6 hover:bg-white/[0.08]"
+                className="glass group flex h-full flex-col justify-between rounded-2xl p-6 hover:bg-foreground/5"
               >
                 <div>
                   <h3 className="text-lg font-medium">{item.title}</h3>

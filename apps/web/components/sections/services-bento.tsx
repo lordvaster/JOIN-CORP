@@ -53,7 +53,7 @@ function ServiceCard({ service }: { service: Service }) {
   return (
     <Link
       href={`/layanan/${service.slug}`}
-      className="glass group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl p-6 transition-colors hover:bg-white/[0.08]"
+      className="glass group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl p-6 transition-colors hover:bg-foreground/5"
     >
       <div>
         <div className="glass-strong mb-5 flex h-11 w-11 items-center justify-center rounded-xl">

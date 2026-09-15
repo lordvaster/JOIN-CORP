@@ -29,7 +29,7 @@ export async function TestimonialsSection() {
               <p className="mt-4 flex-1 text-sm text-foreground/90 italic">
                 &ldquo;{t.quote}&rdquo;
               </p>
-              <div className="mt-5 border-t border-white/10 pt-4">
+              <div className="mt-5 border-t border-border pt-4">
                 <div className="text-sm font-medium">{t.author_name}</div>
                 {t.author_role && (
                   <div className="text-xs text-muted-foreground">{t.author_role}</div>

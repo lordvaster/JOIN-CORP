@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/site/logo";
+import { ThemeToggle } from "@/components/site/theme-toggle";
 import {
   Sheet,
   SheetContent,
@@ -23,7 +24,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-background/70 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-border bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link href="/" aria-label="JOIN — Beranda">
           <Logo />
@@ -41,7 +42,8 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-2 md:flex">
+          <ThemeToggle />
           <Button render={<Link href="/kontak" />} className="glow-primary">
             Konsultasi Gratis
           </Button>
@@ -53,12 +55,15 @@ export function Navbar() {
           >
             <Menu className="h-5 w-5" />
           </SheetTrigger>
-          <SheetContent side="right" className="glass-strong w-72 border-l border-white/10">
+          <SheetContent side="right" className="glass-strong w-72 border-l border-border">
             <div className="flex items-center justify-between px-4 pt-4">
               <Logo />
-              <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Tutup menu">
-                <X className="h-5 w-5" />
-              </Button>
+              <div className="flex items-center gap-1">
+                <ThemeToggle />
+                <Button variant="ghost" size="icon" onClick={() => setOpen(false)} aria-label="Tutup menu">
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
             </div>
             <nav className="mt-8 flex flex-col gap-6 px-6">
               {NAV_LINKS.map((link) => (

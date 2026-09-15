@@ -6,7 +6,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-white/10 bg-background/60">
+    <footer className="border-t border-border bg-background/60">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:grid-cols-2 md:grid-cols-4">
         <div className="sm:col-span-2 md:col-span-1">
           <Logo />
@@ -47,7 +47,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 py-6 text-center text-xs text-muted-foreground">
+      <div className="border-t border-border py-6 text-center text-xs text-muted-foreground">
         © {year} PT Jofael Inovasi Nusantara. Seluruh hak cipta dilindungi.
       </div>
     </footer>

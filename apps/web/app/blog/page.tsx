@@ -36,7 +36,7 @@ export default async function BlogPage() {
             <FadeIn key={post.id} delay={i * 0.06}>
               <Link
                 href={`/blog/${post.slug}`}
-                className="glass group flex flex-col gap-2 rounded-2xl p-6 hover:bg-white/[0.08]"
+                className="glass group flex flex-col gap-2 rounded-2xl p-6 hover:bg-foreground/5"
               >
                 <h2 className="text-lg font-medium">{post.title}</h2>
                 <p className="text-sm text-muted-foreground">{post.excerpt}</p>
