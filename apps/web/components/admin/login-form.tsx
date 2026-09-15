@@ -10,6 +10,7 @@ import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Logo } from "@/components/site/logo";
 
 const loginSchema = z.object({
   email: z.string().email("Format email tidak valid"),
@@ -47,8 +48,8 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="glass w-full max-w-sm space-y-5 rounded-2xl p-8">
-      <div className="space-y-1 text-center">
-        <h1 className="text-lg font-semibold text-gradient">JOIN Admin</h1>
+      <div className="flex flex-col items-center gap-2 text-center">
+        <Logo iconSize={36} />
         <p className="text-sm text-muted-foreground">Masuk untuk mengelola konten</p>
       </div>
 

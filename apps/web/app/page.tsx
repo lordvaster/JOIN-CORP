@@ -2,6 +2,7 @@ import { Hero } from "@/components/sections/hero";
 import { StatsSection } from "@/components/sections/stats-section";
 import { ServicesBento } from "@/components/sections/services-bento";
 import { PortfolioPreview } from "@/components/sections/portfolio-preview";
+import { TestimonialsSection } from "@/components/sections/testimonials-section";
 import { ContactCta } from "@/components/sections/contact-cta";
 
 export default function Home() {
@@ -11,6 +12,7 @@ export default function Home() {
       <StatsSection />
       <ServicesBento />
       <PortfolioPreview />
+      <TestimonialsSection />
       <ContactCta />
     </>
   );

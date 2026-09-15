@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+import { Logo } from "@/components/site/logo";
+
 export function Footer() {
   const year = new Date().getFullYear();
 
@@ -7,7 +9,7 @@ export function Footer() {
     <footer className="border-t border-white/10 bg-background/60">
       <div className="mx-auto grid max-w-6xl gap-10 px-6 py-14 sm:grid-cols-2 md:grid-cols-4">
         <div className="sm:col-span-2 md:col-span-1">
-          <span className="text-lg font-semibold text-gradient">JOIN</span>
+          <Logo />
           <p className="mt-3 text-sm text-muted-foreground">
             PT Jofael Inovasi Nusantara — mitra pengembangan aplikasi
             e-commerce &amp; blockchain Anda.
