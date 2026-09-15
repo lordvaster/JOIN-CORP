@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 import { Navbar } from "@/components/site/navbar";
 import { Footer } from "@/components/site/footer";
 import { AuroraBackground } from "@/components/site/aurora-background";
+import { WhatsappButton } from "@/components/site/whatsapp-button";
 
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -21,6 +22,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
+      <WhatsappButton />
     </>
   );
 }

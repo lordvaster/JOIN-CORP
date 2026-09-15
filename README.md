@@ -58,6 +58,37 @@ route `/api/admin/proxy/*` di Next.js yang menempelkan header
 JavaScript browser. `proxy.ts` melakukan redirect optimis ke
 `/admin/login` bila cookie tidak ada.
 
+## Notifikasi email lead baru
+
+Kosongkan `SMTP_HOST` di `.env` (default) untuk menonaktifkan — form
+kontak tetap berfungsi normal. Untuk mengaktifkan, isi `SMTP_HOST`,
+`SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD` di `.env` (lihat komentar di
+`.env.example` untuk contoh pakai Google Workspace), lalu:
+
+```bash
+docker compose up -d api
+```
+
+Setiap submission form kontak baru akan mengirim email ke
+`NOTIFY_EMAIL_TO` (default `corporate@join.co.id`) lewat background task
+— kegagalan kirim email tidak pernah menggagalkan penyimpanan lead itu
+sendiri, cukup tercatat di `docker compose logs api`.
+
+## Tombol WhatsApp mengambang
+
+Kosongkan `NEXT_PUBLIC_WHATSAPP_NUMBER` di `.env` (default) untuk
+menyembunyikan tombolnya. Isi dengan nomor + kode negara tanpa "+"/spasi
+(mis. `6281234567890`), lalu **rebuild** `web` (variabel ini di-inline
+saat build, bukan runtime):
+
+```bash
+docker compose build web && docker compose up -d web
+```
+
+Kalau memakai CI (`build-and-push.yml`), set repository variable
+`WHATSAPP_NUMBER` di GitHub (Settings → Secrets and variables → Actions
+→ Variables) supaya image hasil build otomatis juga menyertakannya.
+
 ## Menyambungkan ke domain join.co.id (Cloudflare Tunnel)
 
 Sudah aktif untuk `join.co.id`, `www.join.co.id`, dan `api.join.co.id`.
@@ -112,5 +143,6 @@ swap dan batas memori per container).
 
 ## Yang masih perlu dikerjakan
 
-- Halaman Kebijakan Privasi (perlu karena mengumpulkan data dari form kontak)
+- Isi `SMTP_HOST`/dst di `.env` supaya notifikasi email lead aktif (lihat bagian di atas)
+- Isi `NEXT_PUBLIC_WHATSAPP_NUMBER` supaya tombol WhatsApp muncul (lihat bagian di atas)
 - Sinkronisasi backup ke penyimpanan off-site

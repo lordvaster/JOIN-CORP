@@ -32,6 +32,7 @@ services:
       context: ./apps/web
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://api.join.co.id}
+        NEXT_PUBLIC_WHATSAPP_NUMBER: ${NEXT_PUBLIC_WHATSAPP_NUMBER:-}
     restart: unless-stopped
     environment:
       # Dipakai kode sisi-server (Server Component, Route Handler) agar

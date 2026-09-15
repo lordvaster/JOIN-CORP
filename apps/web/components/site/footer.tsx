@@ -47,8 +47,11 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-border py-6 text-center text-xs text-muted-foreground">
-        © {year} PT Jofael Inovasi Nusantara. Seluruh hak cipta dilindungi.
+      <div className="border-t border-border flex flex-col items-center justify-center gap-2 py-6 text-center text-xs text-muted-foreground sm:flex-row sm:gap-4">
+        <span>© {year} PT Jofael Inovasi Nusantara. Seluruh hak cipta dilindungi.</span>
+        <Link href="/kebijakan-privasi" className="hover:text-foreground">
+          Kebijakan Privasi
+        </Link>
       </div>
     </footer>
   );

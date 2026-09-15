@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -144,6 +145,14 @@ export function ContactForm() {
         {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         Kirim Pesan
       </Button>
+
+      <p className="text-center text-xs text-muted-foreground">
+        Dengan mengirim pesan ini, Anda menyetujui{" "}
+        <Link href="/kebijakan-privasi" className="text-primary hover:underline">
+          Kebijakan Privasi
+        </Link>{" "}
+        kami.
+      </p>
     </form>
   );
 }
