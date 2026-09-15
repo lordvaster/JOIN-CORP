@@ -11,6 +11,7 @@ class ServiceRead(BaseModel):
     description: str
     icon: str
     order: int
+    is_published: bool
 
 
 class ServiceWrite(BaseModel):
@@ -35,6 +36,7 @@ class PortfolioItemRead(BaseModel):
     cover_image_url: str | None
     tags: str
     order: int
+    is_published: bool
 
 
 class PortfolioItemWrite(BaseModel):
@@ -59,6 +61,7 @@ class BlogPostRead(BaseModel):
     content: str
     cover_image_url: str | None
     author_name: str
+    is_published: bool
 
 
 class BlogPostWrite(BaseModel):
@@ -80,6 +83,7 @@ class TeamMemberRead(BaseModel):
     photo_url: str | None
     bio: str
     order: int
+    is_published: bool
 
 
 class TestimonialRead(BaseModel):

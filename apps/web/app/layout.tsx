@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import { Navbar } from "@/components/site/navbar";
-import { Footer } from "@/components/site/footer";
-import { AuroraBackground } from "@/components/site/aurora-background";
+import { SiteChrome } from "@/components/site/site-chrome";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,10 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} dark h-full antialiased`}
     >
       <body className="relative flex min-h-full flex-col overflow-x-hidden bg-background text-foreground">
-        <AuroraBackground />
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   );

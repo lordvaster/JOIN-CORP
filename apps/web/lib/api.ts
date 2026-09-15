@@ -7,10 +7,13 @@ import type {
 } from "@/lib/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+// Dipakai hanya di kode server (Server Component): panggil FastAPI lewat
+// jaringan internal Docker, tidak bergantung DNS publik/Cloudflare Tunnel.
+const INTERNAL_API_URL = process.env.INTERNAL_API_URL ?? API_URL;
 
 async function safeGet<T>(path: string, fallback: T): Promise<T> {
   try {
-    const res = await fetch(`${API_URL}${path}`, {
+    const res = await fetch(`${INTERNAL_API_URL}${path}`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) return fallback;

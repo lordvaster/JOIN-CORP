@@ -7,7 +7,7 @@ untuk keputusan arsitektur.
 
 - **Frontend**: Next.js 16 (App Router) + Tailwind CSS v4 + shadcn/ui (Base UI) + Framer Motion + React Hook Form + Zod
 - **Backend**: FastAPI (async SQLAlchemy 2.0 + Alembic) + PostgreSQL
-- **Infra**: Docker Compose + Caddy (reverse proxy) + Cloudflare Tunnel
+- **Infra**: Docker Compose + Caddy (reverse proxy) + Cloudflare Tunnel (live di join.co.id, www.join.co.id, api.join.co.id)
 
 ## Struktur repo
 
@@ -41,12 +41,42 @@ Login admin: `POST /api/auth/token` dengan `username`/`password` sesuai
 `SEED_ADMIN_EMAIL` / `SEED_ADMIN_PASSWORD` di `.env`, lalu pakai
 `Authorization: Bearer <token>` untuk endpoint `/api/admin/*`.
 
+## Admin dashboard (Next.js)
+
+`https://join.co.id/admin` — login pakai kredensial `SEED_ADMIN_EMAIL` /
+`SEED_ADMIN_PASSWORD`. Fitur saat ini:
+- **Ringkasan** — jumlah leads & layanan
+- **Leads** — daftar pesan dari form kontak, tandai selesai
+- **Layanan** — CRUD (tambah/edit/hapus/publish-draft)
+
+Arsitektur auth: login menyimpan JWT dari FastAPI ke cookie httpOnly
+(`join_admin_token`, domain join.co.id). Server Component memanggil FastAPI
+langsung pakai cookie itu; komponen client (form, tombol aksi) lewat proxy
+route `/api/admin/proxy/*` di Next.js yang menempelkan header
+`Authorization` di sisi server — token JWT tidak pernah terekspos ke
+JavaScript browser. `proxy.ts` melakukan redirect optimis ke
+`/admin/login` bila cookie tidak ada.
+
+Portfolio, blog, dan testimonial sudah punya endpoint CRUD penuh di
+FastAPI (`/api/admin/*`) tapi belum ada halaman UI-nya — pola yang sama
+seperti `components/admin/service-form.tsx` +
+`app/admin/(dashboard)/layanan/` tinggal direplikasi untuk resource lain.
+
 ## Menyambungkan ke domain join.co.id (Cloudflare Tunnel)
 
-1. Di dashboard Cloudflare → Zero Trust → Networks → Tunnels, buat tunnel baru.
-2. Tambahkan public hostname: `join.co.id` dan `www.join.co.id` → `http://caddy:80`, serta `api.join.co.id` → `http://caddy:80`.
+Sudah aktif untuk `join.co.id`, `www.join.co.id`, dan `api.join.co.id`.
+Untuk setup ulang atau pindah VPS:
+
+1. Di dashboard Cloudflare → **Zero Trust** → **Networks** → **Tunnels & Mesh**, buat/pilih tunnel.
+2. Di halaman detail tunnel, tambah **Published application route** untuk tiap hostname (`join.co.id`, `www.join.co.id`, `api.join.co.id`), semuanya dengan **Service Type: HTTP** (bukan HTTPS) mengarah ke `caddy:80`. DNS record dibuat otomatis oleh Cloudflare.
 3. Salin token tunnel ke `.env` sebagai `CLOUDFLARE_TUNNEL_TOKEN`.
 4. Jalankan: `docker compose --profile prod up -d cloudflared`
+
+Catatan: kode sisi-server Next.js (Server Component, Route Handler)
+memanggil FastAPI lewat `INTERNAL_API_URL=http://api:8000` (jaringan
+internal Docker), **bukan** lewat `api.join.co.id` — supaya situs tetap
+berfungsi walau Tunnel/DNS publik sedang bermasalah. Hanya kode di
+browser (form kontak) yang memanggil `NEXT_PUBLIC_API_URL` (domain publik).
 
 ## Migrasi database
 
@@ -78,7 +108,6 @@ Cloudflare Tunnel ke VPS baru (tidak perlu ganti DNS). Detail di
 
 ## Yang masih perlu dikerjakan
 
-- UI admin dashboard (saat ini pengelolaan konten lewat endpoint
-  `/api/admin/*` langsung atau `seed.py`)
+- Halaman admin untuk Portfolio/Blog/Testimonial (backend sudah siap, lihat bagian Admin dashboard)
 - Halaman Kebijakan Privasi (perlu karena mengumpulkan data dari form kontak)
 - Sinkronisasi backup ke penyimpanan off-site

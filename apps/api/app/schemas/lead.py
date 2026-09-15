@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict, EmailStr, field_validator
 
 
@@ -34,7 +36,9 @@ class ContactRead(BaseModel):
     id: int
     name: str
     email: EmailStr
+    phone: str | None
     company: str | None
     service_interest: str | None
     message: str
     is_handled: bool
+    created_at: datetime

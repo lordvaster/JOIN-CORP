@@ -30,6 +30,11 @@ services:
       args:
         NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-https://api.join.co.id}
     restart: unless-stopped
+    environment:
+      # Dipakai kode sisi-server (Server Component, Route Handler) agar
+      # memanggil FastAPI langsung lewat jaringan Docker, tidak lewat
+      # Cloudflare — lebih cepat dan tetap jalan walau Tunnel/DNS belum aktif.
+      INTERNAL_API_URL: http://api:8000
     depends_on:
       - api
 
