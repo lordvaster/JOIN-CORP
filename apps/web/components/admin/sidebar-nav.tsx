@@ -2,13 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Inbox, Briefcase, GalleryHorizontalEnd, Newspaper, Quote } from "lucide-react";
+import {
+  LayoutDashboard,
+  Inbox,
+  Briefcase,
+  GalleryHorizontalEnd,
+  Newspaper,
+  Quote,
+  Users,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "/admin", label: "Ringkasan", icon: LayoutDashboard, exact: true },
   { href: "/admin/leads", label: "Leads", icon: Inbox },
+  { href: "/admin/tentang", label: "Tentang Kami", icon: Users },
   { href: "/admin/layanan", label: "Layanan", icon: Briefcase },
   { href: "/admin/portfolio", label: "Portfolio", icon: GalleryHorizontalEnd },
   { href: "/admin/blog", label: "Blog", icon: Newspaper },

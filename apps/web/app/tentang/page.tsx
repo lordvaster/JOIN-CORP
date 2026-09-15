@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { getTeam } from "@/lib/api";
+import { getAboutContent, getTeam } from "@/lib/api";
 import { FadeIn } from "@/components/site/fade-in";
 
 export const metadata: Metadata = {
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const team = await getTeam();
+  const [about, team] = await Promise.all([getAboutContent(), getTeam()]);
 
   return (
     <div>
@@ -20,15 +20,9 @@ export default async function AboutPage() {
             Tentang Kami
           </span>
           <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-            PT Jofael Inovasi Nusantara
+            {about.heading}
           </h1>
-          <p className="mt-6 text-muted-foreground">
-            JOIN adalah perseroan perorangan yang berdiri di Palangka Raya,
-            Kalimantan Tengah, dengan fokus pada dua bidang: pengembangan
-            aplikasi e-commerce dan solusi berbasis teknologi blockchain.
-            Kami percaya teknologi yang tepat guna dapat membantu bisnis dari
-            berbagai skala untuk bertumbuh secara digital.
-          </p>
+          <p className="mt-6 whitespace-pre-line text-muted-foreground">{about.intro}</p>
         </FadeIn>
       </section>
 

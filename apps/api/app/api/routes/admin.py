@@ -3,15 +3,19 @@ from sqlalchemy import select
 
 from app.api.deps import DbDep
 from app.core.security import CurrentAdmin
-from app.models.content import BlogPost, PortfolioItem, Service, TeamMember, Testimonial
+from app.models.content import AboutContent, BlogPost, PortfolioItem, Service, TeamMember, Testimonial
 from app.models.lead import ContactSubmission
 from app.schemas.content import (
+    AboutContentRead,
+    AboutContentWrite,
     BlogPostRead,
     BlogPostWrite,
     PortfolioItemRead,
     PortfolioItemWrite,
     ServiceRead,
     ServiceWrite,
+    TeamMemberRead,
+    TeamMemberWrite,
     TestimonialRead,
     TestimonialWrite,
 )
@@ -177,6 +181,75 @@ async def admin_delete_testimonial(testimonial_id: int, db: DbDep, _admin: Curre
     if testimonial is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Testimoni tidak ditemukan")
     await db.delete(testimonial)
+    await db.commit()
+
+
+# --- About page (singleton) ----------------------------------------------
+@router.get("/about", response_model=AboutContentRead)
+async def admin_get_about(db: DbDep, _admin: CurrentAdmin) -> AboutContent:
+    about = await db.get(AboutContent, 1)
+    if about is None:
+        about = AboutContent(id=1, heading="PT Jofael Inovasi Nusantara", intro="")
+        db.add(about)
+        await db.commit()
+        await db.refresh(about)
+    return about
+
+
+@router.put("/about", response_model=AboutContentRead)
+async def admin_update_about(
+    payload: AboutContentWrite, db: DbDep, _admin: CurrentAdmin
+) -> AboutContent:
+    about = await db.get(AboutContent, 1)
+    if about is None:
+        about = AboutContent(id=1, **payload.model_dump())
+        db.add(about)
+    else:
+        for field, value in payload.model_dump().items():
+            setattr(about, field, value)
+    await db.commit()
+    await db.refresh(about)
+    return about
+
+
+# --- Team members ----------------------------------------------------
+@router.get("/team", response_model=list[TeamMemberRead])
+async def admin_list_team(db: DbDep, _admin: CurrentAdmin) -> list[TeamMember]:
+    result = await db.execute(select(TeamMember).order_by(TeamMember.order))
+    return list(result.scalars().all())
+
+
+@router.post("/team", response_model=TeamMemberRead, status_code=status.HTTP_201_CREATED)
+async def admin_create_team_member(
+    payload: TeamMemberWrite, db: DbDep, _admin: CurrentAdmin
+) -> TeamMember:
+    member = TeamMember(**payload.model_dump())
+    db.add(member)
+    await db.commit()
+    await db.refresh(member)
+    return member
+
+
+@router.put("/team/{member_id}", response_model=TeamMemberRead)
+async def admin_update_team_member(
+    member_id: int, payload: TeamMemberWrite, db: DbDep, _admin: CurrentAdmin
+) -> TeamMember:
+    member = await db.get(TeamMember, member_id)
+    if member is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Anggota tim tidak ditemukan")
+    for field, value in payload.model_dump().items():
+        setattr(member, field, value)
+    await db.commit()
+    await db.refresh(member)
+    return member
+
+
+@router.delete("/team/{member_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def admin_delete_team_member(member_id: int, db: DbDep, _admin: CurrentAdmin) -> None:
+    member = await db.get(TeamMember, member_id)
+    if member is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Anggota tim tidak ditemukan")
+    await db.delete(member)
     await db.commit()
 
 

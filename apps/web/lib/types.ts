@@ -46,3 +46,8 @@ export type Testimonial = {
   quote: string;
   order: number;
 };
+
+export type AboutContent = {
+  heading: string;
+  intro: string;
+};

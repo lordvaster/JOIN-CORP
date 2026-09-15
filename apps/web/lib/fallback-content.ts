@@ -1,4 +1,4 @@
-import type { Service, TeamMember } from "@/lib/types";
+import type { AboutContent, Service, TeamMember } from "@/lib/types";
 
 /**
  * Konten cadangan yang tampil jika FastAPI belum bisa diakses (mis. saat
@@ -48,3 +48,9 @@ export const fallbackTeam: TeamMember[] = [
     order: 1,
   },
 ];
+
+export const fallbackAbout: AboutContent = {
+  heading: "PT Jofael Inovasi Nusantara",
+  intro:
+    "JOIN adalah perseroan perorangan yang berdiri di Palangka Raya, Kalimantan Tengah, dengan fokus pada dua bidang: pengembangan aplikasi e-commerce dan solusi berbasis teknologi blockchain. Kami percaya teknologi yang tepat guna dapat membantu bisnis dari berbagai skala untuk bertumbuh secara digital.",
+};

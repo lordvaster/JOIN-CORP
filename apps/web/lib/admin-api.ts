@@ -83,3 +83,18 @@ export type AdminTestimonial = {
   order: number;
   is_published: boolean;
 };
+
+export type AdminTeamMember = {
+  id: number;
+  name: string;
+  role: string;
+  photo_url: string | null;
+  bio: string;
+  order: number;
+  is_published: boolean;
+};
+
+export type AdminAboutContent = {
+  heading: string;
+  intro: string;
+};

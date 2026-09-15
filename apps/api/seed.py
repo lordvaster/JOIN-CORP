@@ -12,7 +12,7 @@ from sqlalchemy import select
 from app.core.security import hash_password
 from app.db.session import AsyncSessionLocal
 from app.models.admin import AdminUser
-from app.models.content import Service, TeamMember
+from app.models.content import AboutContent, Service, TeamMember
 
 
 async def seed() -> None:
@@ -85,6 +85,23 @@ async def seed() -> None:
                 )
             )
             print("Team member founder ditambahkan")
+
+        about = await db.get(AboutContent, 1)
+        if about is None:
+            db.add(
+                AboutContent(
+                    id=1,
+                    heading="PT Jofael Inovasi Nusantara",
+                    intro=(
+                        "JOIN adalah perseroan perorangan yang berdiri di Palangka Raya, "
+                        "Kalimantan Tengah, dengan fokus pada dua bidang: pengembangan "
+                        "aplikasi e-commerce dan solusi berbasis teknologi blockchain. "
+                        "Kami percaya teknologi yang tepat guna dapat membantu bisnis dari "
+                        "berbagai skala untuk bertumbuh secara digital."
+                    ),
+                )
+            )
+            print("About content dibuat")
 
         await db.commit()
 

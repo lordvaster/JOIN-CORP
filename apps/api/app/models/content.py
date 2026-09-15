@@ -45,6 +45,16 @@ class BlogPost(Base, TimestampMixin):
     is_published: Mapped[bool] = mapped_column(Boolean, default=False)
 
 
+class AboutContent(Base, TimestampMixin):
+    """Singleton (selalu id=1) untuk teks di halaman /tentang yang bisa diedit lewat admin."""
+
+    __tablename__ = "about_content"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    heading: Mapped[str] = mapped_column(String(200))
+    intro: Mapped[str] = mapped_column(Text)
+
+
 class TeamMember(Base, TimestampMixin):
     __tablename__ = "team_members"
 

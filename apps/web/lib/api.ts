@@ -1,5 +1,6 @@
-import { fallbackServices, fallbackTeam } from "@/lib/fallback-content";
+import { fallbackAbout, fallbackServices, fallbackTeam } from "@/lib/fallback-content";
 import type {
+  AboutContent,
   BlogPost,
   PortfolioItem,
   Service,
@@ -40,6 +41,8 @@ export const getBlogPost = (slug: string) =>
   safeGet<BlogPost | null>(`/api/blog/${slug}`, null);
 
 export const getTeam = () => safeGet("/api/team", fallbackTeam);
+
+export const getAboutContent = () => safeGet<AboutContent>("/api/about", fallbackAbout);
 
 export const getTestimonials = () => safeGet<Testimonial[]>("/api/testimonials", []);
 

@@ -2,8 +2,9 @@ from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 
 from app.api.deps import DbDep
-from app.models.content import BlogPost, PortfolioItem, Service, TeamMember, Testimonial
+from app.models.content import AboutContent, BlogPost, PortfolioItem, Service, TeamMember, Testimonial
 from app.schemas.content import (
+    AboutContentRead,
     BlogPostRead,
     PortfolioItemRead,
     ServiceRead,
@@ -12,6 +13,23 @@ from app.schemas.content import (
 )
 
 router = APIRouter(tags=["public"])
+
+DEFAULT_ABOUT_HEADING = "PT Jofael Inovasi Nusantara"
+DEFAULT_ABOUT_INTRO = (
+    "JOIN adalah perseroan perorangan yang berdiri di Palangka Raya, "
+    "Kalimantan Tengah, dengan fokus pada dua bidang: pengembangan "
+    "aplikasi e-commerce dan solusi berbasis teknologi blockchain. "
+    "Kami percaya teknologi yang tepat guna dapat membantu bisnis dari "
+    "berbagai skala untuk bertumbuh secara digital."
+)
+
+
+@router.get("/about", response_model=AboutContentRead)
+async def get_about_content(db: DbDep) -> AboutContent | AboutContentRead:
+    about = await db.get(AboutContent, 1)
+    if about is None:
+        return AboutContentRead(heading=DEFAULT_ABOUT_HEADING, intro=DEFAULT_ABOUT_INTRO)
+    return about
 
 
 @router.get("/services", response_model=list[ServiceRead])

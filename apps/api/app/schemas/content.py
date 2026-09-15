@@ -86,6 +86,27 @@ class TeamMemberRead(BaseModel):
     is_published: bool
 
 
+class TeamMemberWrite(BaseModel):
+    name: str
+    role: str
+    photo_url: str | None = None
+    bio: str = ""
+    order: int = 0
+    is_published: bool = True
+
+
+class AboutContentRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    heading: str
+    intro: str
+
+
+class AboutContentWrite(BaseModel):
+    heading: str
+    intro: str
+
+
 class TestimonialRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
