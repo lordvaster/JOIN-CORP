@@ -47,7 +47,8 @@ Login admin: `POST /api/auth/token` dengan `username`/`password` sesuai
 `SEED_ADMIN_PASSWORD`. Fitur saat ini:
 - **Ringkasan** — jumlah leads & layanan
 - **Leads** — daftar pesan dari form kontak, tandai selesai
-- **Layanan** — CRUD (tambah/edit/hapus/publish-draft)
+- **Tentang Kami** — edit judul/teks halaman /tentang + CRUD anggota tim
+- **Layanan / Portfolio / Blog / Testimoni** — CRUD penuh (tambah/edit/hapus/publish-draft) untuk masing-masing
 
 Arsitektur auth: login menyimpan JWT dari FastAPI ke cookie httpOnly
 (`join_admin_token`, domain join.co.id). Server Component memanggil FastAPI
@@ -56,11 +57,6 @@ route `/api/admin/proxy/*` di Next.js yang menempelkan header
 `Authorization` di sisi server — token JWT tidak pernah terekspos ke
 JavaScript browser. `proxy.ts` melakukan redirect optimis ke
 `/admin/login` bila cookie tidak ada.
-
-Portfolio, blog, dan testimonial sudah punya endpoint CRUD penuh di
-FastAPI (`/api/admin/*`) tapi belum ada halaman UI-nya — pola yang sama
-seperti `components/admin/service-form.tsx` +
-`app/admin/(dashboard)/layanan/` tinggal direplikasi untuk resource lain.
 
 ## Menyambungkan ke domain join.co.id (Cloudflare Tunnel)
 
@@ -106,8 +102,15 @@ sebagai kode, pindah VPS = clone repo + restore backup terbaru + arahkan
 Cloudflare Tunnel ke VPS baru (tidak perlu ganti DNS). Detail di
 `docs/adr/002-deployment-topology.md`.
 
+## Build otomatis ke GHCR (untuk VPS RAM kecil)
+
+`.github/workflows/build-and-push.yml` build image `web`/`api` dan
+push ke `ghcr.io/lordvaster/join-corp-{web,api}` setiap push ke `main`.
+Ini memungkinkan deploy ke VPS spek kecil tanpa perlu build di sana —
+lihat `docs/low-memory-vps.md` untuk panduan lengkap (termasuk setup
+swap dan batas memori per container).
+
 ## Yang masih perlu dikerjakan
 
-- Halaman admin untuk Portfolio/Blog/Testimonial (backend sudah siap, lihat bagian Admin dashboard)
 - Halaman Kebijakan Privasi (perlu karena mengumpulkan data dari form kontak)
 - Sinkronisasi backup ke penyimpanan off-site

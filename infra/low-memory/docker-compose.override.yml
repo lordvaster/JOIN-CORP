@@ -1,0 +1,29 @@
+# Override untuk VPS RAM kecil (mis. 1 vCPU / 512MB).
+# Pakai bersama file utama:
+#   docker compose -f docker-compose.yml -f infra/low-memory/docker-compose.override.yml up -d
+#
+# Batas memori tiap service dipasang supaya kalau salah satu container
+# ngambil memori berlebih, yang di-OOM-kill cuma container itu (lalu
+# restart otomatis lewat `restart: unless-stopped`) — bukan seluruh VPS
+# jadi tidak responsif. Total batas di bawah sengaja dijaga di sekitar
+# ~440MB dari 512MB agar OS tetap punya ruang bernapas; sisanya ditutupi
+# swapfile dari setup-swap.sh.
+
+services:
+  db:
+    mem_limit: 128m
+    # shared_buffers & max_connections default Postgres cukup boros untuk
+    # VPS sekecil ini; diperkecil manual di sini.
+    command: postgres -c shared_buffers=32MB -c max_connections=20 -c work_mem=4MB
+
+  api:
+    mem_limit: 100m
+
+  web:
+    mem_limit: 150m
+
+  caddy:
+    mem_limit: 32m
+
+  cloudflared:
+    mem_limit: 32m
