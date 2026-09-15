@@ -40,13 +40,12 @@ const SERVICE_OPTIONS = [
 export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [serviceInterest, setServiceInterest] = useState<string | undefined>();
 
   const {
     register,
     handleSubmit,
     reset,
-    setValue,
-    watch,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
@@ -56,9 +55,10 @@ export function ContactForm() {
     setStatus("idle");
     setErrorMessage(null);
     try {
-      await submitContact(values);
+      await submitContact({ ...values, service_interest: serviceInterest });
       setStatus("success");
       reset();
+      setServiceInterest(undefined);
     } catch (err) {
       setStatus("error");
       setErrorMessage(err instanceof Error ? err.message : "Terjadi kesalahan");
@@ -109,8 +109,8 @@ export function ContactForm() {
       <div className="space-y-2">
         <Label htmlFor="service_interest">Layanan yang diminati</Label>
         <Select
-          onValueChange={(value) => setValue("service_interest", value ?? undefined)}
-          value={watch("service_interest")}
+          value={serviceInterest}
+          onValueChange={(value) => setServiceInterest(value ?? undefined)}
         >
           <SelectTrigger id="service_interest" className="w-full">
             <SelectValue placeholder="Pilih layanan" />
