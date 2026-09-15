@@ -8,8 +8,17 @@ from app.core.config import get_settings
 from app.core.limiter import limiter
 
 settings = get_settings()
+is_production = settings.environment == "production"
 
-app = FastAPI(title="JOIN API", version="0.1.0")
+app = FastAPI(
+    title="JOIN API",
+    version="0.1.0",
+    # Skema/dokumentasi API dimatikan di production supaya tidak jadi peta
+    # gratis untuk pengintaian endpoint admin oleh pihak luar.
+    docs_url=None if is_production else "/docs",
+    redoc_url=None if is_production else "/redoc",
+    openapi_url=None if is_production else "/openapi.json",
+)
 
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)

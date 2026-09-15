@@ -10,7 +10,10 @@ class Settings(BaseSettings):
 
     database_url: str = "postgresql+asyncpg://join:join@db:5432/join"
 
-    secret_key: str = "change-me-in-.env"
+    # Tanpa default sengaja: kalau SECRET_KEY tidak diset, aplikasi harus
+    # gagal start (fail closed), bukan diam-diam pakai kunci yang sudah
+    # publik di repo ini.
+    secret_key: str
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 60 * 12
 

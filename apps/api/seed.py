@@ -18,7 +18,12 @@ from app.models.content import AboutContent, Service, TeamMember
 async def seed() -> None:
     async with AsyncSessionLocal() as db:
         admin_email = os.environ.get("SEED_ADMIN_EMAIL", "admin@join.co.id")
-        admin_password = os.environ.get("SEED_ADMIN_PASSWORD", "ubah-password-ini")
+        admin_password = os.environ.get("SEED_ADMIN_PASSWORD")
+        if not admin_password:
+            raise RuntimeError(
+                "SEED_ADMIN_PASSWORD belum diset di .env — seed dibatalkan agar "
+                "tidak membuat admin dengan password yang bisa ditebak."
+            )
 
         existing_admin = await db.execute(select(AdminUser).where(AdminUser.email == admin_email))
         if existing_admin.scalar_one_or_none() is None:
