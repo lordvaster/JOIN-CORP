@@ -37,13 +37,23 @@ export default async function AboutPage() {
             {team.map((member, i) => (
               <FadeIn key={member.id} delay={i * 0.08}>
                 <div className="glass rounded-2xl p-6 text-center">
-                  <div className="glass-strong mx-auto flex h-16 w-16 items-center justify-center rounded-full text-lg font-semibold">
-                    {member.name
-                      .split(" ")
-                      .map((n) => n[0])
-                      .slice(0, 2)
-                      .join("")}
-                  </div>
+                  {member.photo_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={member.photo_url}
+                      alt={member.name}
+                      loading="lazy"
+                      className="mx-auto h-16 w-16 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="glass-strong mx-auto flex h-16 w-16 items-center justify-center rounded-full text-lg font-semibold">
+                      {member.name
+                        .split(" ")
+                        .map((n) => n[0])
+                        .slice(0, 2)
+                        .join("")}
+                    </div>
+                  )}
                   <h3 className="mt-4 font-medium">{member.name}</h3>
                   <p className="text-sm text-primary">{member.role}</p>
                   {member.bio && (

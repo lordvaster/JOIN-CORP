@@ -1,9 +1,29 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
 import { getPortfolioItem } from "@/lib/api";
 import { FadeIn } from "@/components/site/fade-in";
+import { CoverImage } from "@/components/site/cover-image";
+
+export async function generateMetadata(
+  props: PageProps<"/portfolio/[slug]">,
+): Promise<Metadata> {
+  const { slug } = await props.params;
+  const item = await getPortfolioItem(slug);
+  if (!item) return {};
+
+  return {
+    title: item.title,
+    description: item.summary,
+    openGraph: {
+      title: item.title,
+      description: item.summary,
+      images: item.cover_image_url ? [item.cover_image_url] : undefined,
+    },
+  };
+}
 
 export default async function PortfolioDetailPage(props: PageProps<"/portfolio/[slug]">) {
   const { slug } = await props.params;
@@ -20,6 +40,7 @@ export default async function PortfolioDetailPage(props: PageProps<"/portfolio/[
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> Semua portfolio
         </Link>
+        <CoverImage src={item.cover_image_url} alt={item.title} className="mb-8" />
         <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{item.title}</h1>
         {item.client_name && (
           <p className="mt-2 text-sm text-muted-foreground">Klien: {item.client_name}</p>

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
@@ -5,6 +6,18 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { getService } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { FadeIn } from "@/components/site/fade-in";
+
+export async function generateMetadata(props: PageProps<"/layanan/[slug]">): Promise<Metadata> {
+  const { slug } = await props.params;
+  const service = await getService(slug);
+  if (!service) return {};
+
+  return {
+    title: service.title,
+    description: service.summary,
+    openGraph: { title: service.title, description: service.summary },
+  };
+}
 
 export default async function ServiceDetailPage(props: PageProps<"/layanan/[slug]">) {
   const { slug } = await props.params;

@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 
 import { getBlogPosts } from "@/lib/api";
 import { FadeIn } from "@/components/site/fade-in";
+import { CoverImage } from "@/components/site/cover-image";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -36,14 +37,23 @@ export default async function BlogPage() {
             <FadeIn key={post.id} delay={i * 0.06}>
               <Link
                 href={`/blog/${post.slug}`}
-                className="glass group flex flex-col gap-2 rounded-2xl p-6 hover:bg-foreground/5"
+                className="glass group flex flex-col gap-4 overflow-hidden rounded-2xl p-6 hover:bg-foreground/5 sm:flex-row sm:items-center"
               >
-                <h2 className="text-lg font-medium">{post.title}</h2>
-                <p className="text-sm text-muted-foreground">{post.excerpt}</p>
-                <span className="inline-flex items-center text-sm text-primary">
-                  Baca selengkapnya
-                  <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
+                {post.cover_image_url && (
+                  <CoverImage
+                    src={post.cover_image_url}
+                    alt={post.title}
+                    className="sm:w-48 sm:shrink-0"
+                  />
+                )}
+                <div className="flex flex-col gap-2">
+                  <h2 className="text-lg font-medium">{post.title}</h2>
+                  <p className="text-sm text-muted-foreground">{post.excerpt}</p>
+                  <span className="inline-flex items-center text-sm text-primary">
+                    Baca selengkapnya
+                    <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
               </Link>
             </FadeIn>
           ))}

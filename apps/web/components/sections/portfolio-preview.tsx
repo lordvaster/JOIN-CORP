@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 import { getPortfolio } from "@/lib/api";
 import { FadeIn } from "@/components/site/fade-in";
+import { CoverImage } from "@/components/site/cover-image";
 import { Button } from "@/components/ui/button";
 
 export async function PortfolioPreview() {
@@ -33,9 +34,10 @@ export async function PortfolioPreview() {
           <FadeIn key={item.id} delay={i * 0.08}>
             <Link
               href={`/portfolio/${item.slug}`}
-              className="glass group flex h-full flex-col justify-between rounded-2xl p-6 hover:bg-foreground/5"
+              className="glass group flex h-full flex-col justify-between overflow-hidden rounded-2xl p-6 hover:bg-foreground/5"
             >
               <div>
+                <CoverImage src={item.cover_image_url} alt={item.title} className="mb-4" />
                 <h3 className="text-lg font-medium">{item.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
               </div>
