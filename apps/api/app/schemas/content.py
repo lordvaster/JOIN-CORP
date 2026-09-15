@@ -94,3 +94,12 @@ class TestimonialRead(BaseModel):
     author_role: str
     quote: str
     order: int
+    is_published: bool
+
+
+class TestimonialWrite(BaseModel):
+    author_name: str
+    author_role: str = ""
+    quote: str
+    order: int = 0
+    is_published: bool = True

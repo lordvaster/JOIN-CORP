@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Inbox, Briefcase } from "lucide-react";
+import { LayoutDashboard, Inbox, Briefcase, GalleryHorizontalEnd, Newspaper, Quote } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -10,6 +10,9 @@ const LINKS = [
   { href: "/admin", label: "Ringkasan", icon: LayoutDashboard, exact: true },
   { href: "/admin/leads", label: "Leads", icon: Inbox },
   { href: "/admin/layanan", label: "Layanan", icon: Briefcase },
+  { href: "/admin/portfolio", label: "Portfolio", icon: GalleryHorizontalEnd },
+  { href: "/admin/blog", label: "Blog", icon: Newspaper },
+  { href: "/admin/testimoni", label: "Testimoni", icon: Quote },
 ];
 
 export function SidebarNav() {

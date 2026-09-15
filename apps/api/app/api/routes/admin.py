@@ -12,6 +12,8 @@ from app.schemas.content import (
     PortfolioItemWrite,
     ServiceRead,
     ServiceWrite,
+    TestimonialRead,
+    TestimonialWrite,
 )
 from app.schemas.lead import ContactRead
 
@@ -134,6 +136,47 @@ async def admin_delete_blog(post_id: int, db: DbDep, _admin: CurrentAdmin) -> No
     if post is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Artikel tidak ditemukan")
     await db.delete(post)
+    await db.commit()
+
+
+# --- Testimonials ----------------------------------------------------
+@router.get("/testimonials", response_model=list[TestimonialRead])
+async def admin_list_testimonials(db: DbDep, _admin: CurrentAdmin) -> list[Testimonial]:
+    result = await db.execute(select(Testimonial).order_by(Testimonial.order))
+    return list(result.scalars().all())
+
+
+@router.post("/testimonials", response_model=TestimonialRead, status_code=status.HTTP_201_CREATED)
+async def admin_create_testimonial(
+    payload: TestimonialWrite, db: DbDep, _admin: CurrentAdmin
+) -> Testimonial:
+    testimonial = Testimonial(**payload.model_dump())
+    db.add(testimonial)
+    await db.commit()
+    await db.refresh(testimonial)
+    return testimonial
+
+
+@router.put("/testimonials/{testimonial_id}", response_model=TestimonialRead)
+async def admin_update_testimonial(
+    testimonial_id: int, payload: TestimonialWrite, db: DbDep, _admin: CurrentAdmin
+) -> Testimonial:
+    testimonial = await db.get(Testimonial, testimonial_id)
+    if testimonial is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Testimoni tidak ditemukan")
+    for field, value in payload.model_dump().items():
+        setattr(testimonial, field, value)
+    await db.commit()
+    await db.refresh(testimonial)
+    return testimonial
+
+
+@router.delete("/testimonials/{testimonial_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def admin_delete_testimonial(testimonial_id: int, db: DbDep, _admin: CurrentAdmin) -> None:
+    testimonial = await db.get(Testimonial, testimonial_id)
+    if testimonial is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Testimoni tidak ditemukan")
+    await db.delete(testimonial)
     await db.commit()
 
 

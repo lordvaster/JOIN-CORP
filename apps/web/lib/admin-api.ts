@@ -50,3 +50,36 @@ export type AdminService = {
   order: number;
   is_published: boolean;
 };
+
+export type AdminPortfolioItem = {
+  id: number;
+  slug: string;
+  title: string;
+  client_name: string | null;
+  summary: string;
+  description: string;
+  cover_image_url: string | null;
+  tags: string;
+  order: number;
+  is_published: boolean;
+};
+
+export type AdminBlogPost = {
+  id: number;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  cover_image_url: string | null;
+  author_name: string;
+  is_published: boolean;
+};
+
+export type AdminTestimonial = {
+  id: number;
+  author_name: string;
+  author_role: string;
+  quote: string;
+  order: number;
+  is_published: boolean;
+};

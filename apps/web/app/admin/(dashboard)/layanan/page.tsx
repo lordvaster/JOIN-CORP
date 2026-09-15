@@ -3,7 +3,7 @@ import { Pencil, Plus } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { DeleteServiceButton } from "@/components/admin/delete-service-button";
+import { DeleteResourceButton } from "@/components/admin/delete-resource-button";
 import { adminFetch, type AdminService } from "@/lib/admin-api";
 
 export default async function AdminServicesPage() {
@@ -44,7 +44,7 @@ export default async function AdminServicesPage() {
               >
                 <Pencil className="h-4 w-4" />
               </Button>
-              <DeleteServiceButton serviceId={service.id} />
+              <DeleteResourceButton resourcePath={`services/${service.id}`} />
             </div>
           </div>
         ))}

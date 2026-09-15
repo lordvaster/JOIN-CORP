@@ -37,8 +37,8 @@ export function Footer() {
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
             <li>Jl. Kalibata VIII No. 18, Palangka Raya</li>
             <li>
-              <a href="mailto:jofaelinovasinusantara@gmail.com" className="hover:text-foreground">
-                jofaelinovasinusantara@gmail.com
+              <a href="mailto:corporate@join.co.id" className="hover:text-foreground">
+                corporate@join.co.id
               </a>
             </li>
           </ul>
