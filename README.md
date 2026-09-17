@@ -3,6 +3,16 @@
 Website perusahaan PT Jofael Inovasi Nusantara (JOIN). Lihat `docs/adr/`
 untuk keputusan arsitektur.
 
+## Tampilan
+
+| Beranda | Layanan |
+|---|---|
+| ![Beranda](docs/screenshots/homepage.png) | ![Layanan](docs/screenshots/layanan.png) |
+
+| Tentang Kami | Kontak |
+|---|---|
+| ![Tentang Kami](docs/screenshots/tentang.png) | ![Kontak](docs/screenshots/kontak.png) |
+
 ## Stack
 
 - **Frontend**: Next.js 16 (App Router) + Tailwind CSS v4 + shadcn/ui (Base UI) + Framer Motion + React Hook Form + Zod
