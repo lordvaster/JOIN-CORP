@@ -12,7 +12,7 @@ from sqlalchemy import select
 from app.core.security import hash_password
 from app.db.session import AsyncSessionLocal
 from app.models.admin import AdminUser
-from app.models.content import AboutContent, Service, TeamMember
+from app.models.content import AboutContent, Service
 
 
 async def seed() -> None:
@@ -78,18 +78,6 @@ async def seed() -> None:
             if existing.scalar_one_or_none() is None:
                 db.add(service)
                 print(f"Service ditambahkan: {service.slug}")
-
-        founder = await db.execute(select(TeamMember).where(TeamMember.name == "Founder JOIN"))
-        if founder.scalar_one_or_none() is None:
-            db.add(
-                TeamMember(
-                    name="Founder JOIN",
-                    role="Founder",
-                    bio="Pendiri PT Jofael Inovasi Nusantara (JOIN).",
-                    order=1,
-                )
-            )
-            print("Team member founder ditambahkan")
 
         about = await db.get(AboutContent, 1)
         if about is None:

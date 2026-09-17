@@ -38,16 +38,7 @@ export const fallbackServices: Service[] = [
   },
 ];
 
-export const fallbackTeam: TeamMember[] = [
-  {
-    id: 1,
-    name: "Founder JOIN",
-    role: "Founder",
-    photo_url: null,
-    bio: "Pendiri PT Jofael Inovasi Nusantara (JOIN).",
-    order: 1,
-  },
-];
+export const fallbackTeam: TeamMember[] = [];
 
 export const fallbackAbout: AboutContent = {
   heading: "PT Jofael Inovasi Nusantara",
